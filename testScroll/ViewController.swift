@@ -39,6 +39,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         refreshControl.addTarget(self, action: #selector(ViewController.refresh(_:)), forControlEvents: .ValueChanged)
         //tableView.tableHeaderView = refreshControl
         tableView.addSubview(refreshControl)
+        tableView.sendSubviewToBack(refreshControl)
         var frame = refreshControl.frame
         frame.origin.y += 44.0
         refreshControl.frame = frame
