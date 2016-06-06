@@ -189,13 +189,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
-        if searchBarExpanded {
-            let offSetY = min( -44.0, max(-44.0, targetContentOffset.memory.y))
         
-            //scrollView.setContentOffset(CGPointMake(0, offSetY), animated: true)
+        print("Dont scrolling with currentOffset: \(scrollView.contentOffset.y)")
+        print("Dont scrolling with targetOffset: \(targetContentOffset.memory.y)")
+        if refreshControl!.refreshing {
+            return
         }
         
-        isScrolling = false
+        if searchBarExpanded {
+            
+            if scrollView.contentOffset.y > -20 {
+                self.tableView.setContentOffset(CGPoint(x: 0,y: 0.0), animated: true)
+                self.searchBarExpanded = false
+
+            } else {
+                self.tableView.setContentOffset(CGPoint(x: 0,y: -44.0), animated: true)
+            }
+            //scrollView.setContentOffset(CGPointMake(0, offSetY), animated: true)
+        } else {
+            
+            if scrollView.contentOffset.y < -20 {
+                self.searchBarExpanded = true
+                self.tableView.setContentOffset(CGPoint(x: 0,y: -44.0), animated: true)
+            } else {
+                self.tableView.setContentOffset(CGPoint(x: 0,y: 0.0), animated: true)
+            }
+        }
+        
     }
 
 
